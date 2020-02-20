@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="~{_fragments::head('博客详情')}">
+		<meta charset="UTF-8"/>
+		<title>博客详情</title>
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no"/>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+		<link rel="stylesheet" href="../static/css/me.css">
+		<link rel="stylesheet" type="text/css" href="../static/css/typo.css"/>
+		<link rel="stylesheet" type="text/css" href="../static/css/animate.css"/>
+		<link rel="stylesheet" type="text/css" href="../static/lib/prism/prism.css"/>
+		<link rel="stylesheet" type="text/css" href="../static/lib/tocbot/tocbot.css"/>
+	</head>
+	<body>
+		<!--
+        	作者：PENG
+        	时间：2020-02-01
+        	描述：导航
+        -->
+		<nav class="ui inverted segment m-padded-tb-mini m-shadow-small" th:replace="~{_fragments::navigation('')}">
+			<div class="ui container">
+				<div class="ui inverted stackable secondary menu">
+					<h2 class="ui teal header item">PENG</h2>
+					<a href="#" class="item m-mobile-hidden item-toggle"><i class="home icon"></i>首页</a>
+					<a href="#" class="item m-mobile-hidden item-toggle"><i class="idea icon"></i>分类</a>
+					<a href="#" class="item m-mobile-hidden item-toggle"><i class="tags icon"></i>标签</a>
+					<a href="#" class="item m-mobile-hidden item-toggle"><i class="clone icon"></i>归档</a>
+					<a href="#" class="item m-mobile-hidden item-toggle"><i class="info icon"></i>关于我</a>
+					<div class="right item m-mobile-hidden item-toggle">
+						<div class="ui icon inverted transparent input">
+							<input type="text" placeholder="Search..."/>
+							<i class="search link icon"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ui icon button black m-right-top m-pc-hidden menu-toggle menu">
+			  <i class="sidebar icon"></i>
+			</div>			
+		</nav>
+		
+		<!--
+        	作者：PENG
+        	时间：2020-02-01
+        	描述：主体
+        -->
+        <!--
+        	 主体部分必须往中间缩一点才好看，不应该和导航及页脚同宽！
+        	解决方案：自己定义自己的container，自己设置max-width（变下点），切记设置margin:auto;居中对齐。
+        -->
+        <div class="m-padded-tb-large m-container-small animated bounceInLeft">
+        	<div class="ui container" th:object="${blog}">
+        		<!--
+        			 attached必须配合
+        			 加top和bottom是有圆角效果。
+        			 也说明这是一连串粘合物的top和bottom！！！相当于把几个粘合物分组。
+        			 top bottom可以达到分组效果！
+        		-->
+        		<!--
+                	作者：PENG
+                	时间：2020-02-02
+                	描述：顶部栏
+                -->         		
+        		<div class="ui top attached segment">
+        			<!-- 学会重用 -->
+					<div class="ui middle aligned grid">
+						<div class="eleven wide column">
+							<div class="ui horizontal link list">
+								<div class="item" th:with="avatar=*{user.avatar}">
+									<img th:src="@{ ${ #strings.isEmpty(avatar) ? '/images/headerImg.jpeg' : avatar } }" src="https://i.picsum.photos/id/64/100/100.jpg" alt="" class="ui avatar image" />
+									<div class="content"><a href="#" class="header m-text-thin" th:text="*{user.nickname}">PENG</a></div>
+								</div>
+								<div class="item">
+									<i class="calendar icon"></i>
+                                    <!--/*-->
+                                    2020-02-01
+                                    <!--*/-->
+                                    <!--/*/
+                                    [[${#dates.format(blog.createTime, 'yyyy-MM-dd HH:mm:ss')}]]
+                                    /*/-->
+								</div>
+								<div class="item">
+									<i class="eye icon"></i>
+                                    <!--/*-->
+                                    666
+                                    <!--*/-->
+                                    <!--/*/
+                                    [[${blog.view_times}]]
+                                    /*/-->
+								</div>
+							</div>
+						</div>
+						<!--<div class="right aligned five wide column">
+							<a href="#" target="_blank" class="ui teal label m-padded-tiny m-text-thin">认知升级</a>
+						</div>-->
+					</div>
+        		</div>
+
+        		<!--
+                	作者：PENG
+                	时间：2020-02-02
+                	描述：图片区域
+                --> 
+        		<div class="ui attached segment">
+        			<img style="height: 40em" th:src="*{picture_addr}" src="https://i.picsum.photos/id/1005/2515/1830.jpg" alt="" class="ui fluid rounded image" />
+        		</div>
+        		
+        		<!--
+                	作者：PENG
+                	时间：2020-02-02
+                	描述：文章内容
+                -->        		
+        		<div class="ui attached segment">
+        			<div class="ui right aligned segment basic m-padded-tb-mini">
+        				<div class="ui label orange basic" th:text="${T(com.peng.blog.enums.BlogCopyrightSource).getDescriptionByOrdinal((blog.original))}">原创</div>
+        			</div>
+        			<h2 class="ui center aligned header m-margin-bottom-zero" th:text="*{title}">小区门口停了一辆救护车</h2>
+        			<div id="wrapper" class="typo typo-selection js-toc-content">
+                        <!--/*-->
+<h1>中文网页重设与排版：<i class="serif">Typo.css</i></h1><br/>
+
+<h2 id="tagline" class="serif">一致化浏览器排版效果，构建最适合中文阅读的网页排版</h2>
+<h2 id="section1">一、关于 <i class="serif">Typo.css</i></h2>
+
+<p><i class="serif">Typo.css</i> 的目的是，在一致化浏览器排版效果的同时，构建最适合中文阅读的网页排版。</p>
+<h4>现状和如何去做：</h4>
+
+<p class="typo-first">排版是一个麻烦的问题 <sup><a href="#appendix1"># 附录一</a></sup>，需要精心设计，而这个设计却是常被视觉设计师所忽略的。前端工程师更常看到这样的问题，但不便变更。因为在多个 OS 中的不同浏览器渲染不同，改动需要多的时间做回归测试，所以改变变得更困难。而像我们一般使用的
+  Yahoo、Eric Meyer 和 Alice base.css 中采用的 Reset 都没有很好地考虑中文排版。<i class="serif">Typo.css</i> 要做的就是解决中文排版的问题。</p>
+
+<p><strong><i class="serif">Typo.css</i> 测试于如下平台：</strong></p>
+<table summary="Typo.css 的测试平台列表">
+  <thead>
+  <tr>
+    <th>OS/浏览器</th>
+    <th>Firefox</th>
+    <th>Chrome</th>
+    <th>Safari</th>
+    <th>Opera</th>
+    <th>IE9</th>
+    <th>IE8</th>
+    <th>IE7</th>
+    <th>IE6</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>OS X</td>
+    <td>✔</td>
+    <td>✔</td>
+    <td>✔</td>
+    <td>✔</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Win 7</td>
+    <td>✔</td>
+    <td>✔</td>
+    <td>✔</td>
+    <td>✔</td>
+    <td>✔</td>
+    <td>✔</td>
+    <td>✔</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Win XP</td>
+    <td>✔</td>
+    <td>✔</td>
+    <td>✔</td>
+    <td>✔</td>
+    <td>-</td>
+    <td>✔</td>
+    <td>✔</td>
+    <td>✔</td>
+  </tr>
+  <tr>
+    <td>Ubuntu</td>
+    <td>✔</td>
+    <td>✔</td>
+    <td>-</td>
+    <td>✔</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  </tbody>
+</table>
+
+<h4>中文排版的重点和难点</h4>
+
+<p>在中文排版中，HTML4 的很多标准在语义在都有照顾到。但从视觉效果上，却很难利用单独的 CSS 来实现，像<abbr title="在文字下多加一个点">着重号</abbr>（例：这里<em class="typo-em">强调一下</em>）。在 HTML4 中，专名号标签（<code>&lt;u&gt;</code>）已经被放弃，而
+  HTML5 被<a href="http://html5doctor.com/u-element/">重新提起</a>。<i class="serif">Typo.css</i> 也根据实际情况提供相应的方案。我们重要要注意的两点是：</p>
+<ol>
+  <li>语义：语义对应的用法和样式是否与中文排版一致</li>
+  <li>表现：在各浏览器中的字体、大小和缩放是否如排版预期</li>
+</ol>
+<p>对于这些，<i class="serif">Typo.css</i> 排版项目的中文偏重注意点，都添加在附录中，详见：</p>
+<blockquote>
+  <b>附录一</b>：<a href="#appendix1"><i class="serif">Typo.css</i> 排版偏重点</a>
+</blockquote>
+
+<p>目前已有像百姓网等全面使用 <i class="serif">Typo.css</i> 的项目，测试平台的覆盖，特别是在<abbr title="手机、平板电脑等移动平台">移动端</abbr>上还没有覆盖完主流平台，希望有能力的同学能加入测试行列，或者加入到 <i class="serif">Typo.css</i>
+  的开发。加入方法：<a href="https://github.com/sofish/Typo.css">参与 <i class="serif">Typo.css</i> 开发</a>。如有批评、建议和意见，也随时欢迎给在 Github 直接提 <a
+    href="https://github.com/sofish/Typo.css/issues">issues</a>，或给<abbr title="Sofish Lin, author of Typo.css"
+                                                                        role="author">我</abbr>发<a
+    href="mailto:sofish@icloud.com">邮件</a>。</p>
+
+
+<h2 id="section2">二、排版实例：</h2>
+
+<p>提供2个排版实例，第一个中文实例来自于来自于<cite class="typo-unique">张燕婴</cite>的《论语》，由于古文排版涉及到的元素比较多，所以采用《论语》中《学而》的第一篇作为排版实例介绍；第2个来自到经典的
+  Lorem Ipsum，并加入了一些代码和列表等比较具有代表性的排版元素。</p>
+
+<h3 id="section2-1">例1：论语学而篇第一</h3>
+
+<p>
+  <small><b>作者：</b><abbr title="名丘，字仲尼">孔子</abbr>（
+    <time>前551年9月28日－前479年4月11日</time>
+    ）
+  </small>
+</p>
+
+<h4>本篇引语</h4>
+
+<p>
+  《学而》是《论语》第一篇的篇名。《论语》中各篇一般都是以第一章的前二三个字作为该篇的篇名。《学而》一篇包括16章，内容涉及诸多方面。其中重点是「吾日三省吾身」；「节用而爱人，使民以时」；「礼之用，和为贵」以及仁、孝、信等道德范畴。 </p>
+
+<h4>原文</h4>
+
+<p>子曰：「学而时习之，不亦说乎？有朋自远方来，不亦乐乎？人不知，而不愠，不亦君子乎？」 </p>
+
+<h4>译文</h4>
+
+<p>孔子说：「学了又时常温习和练习，不是很愉快吗？有志同道合的人从远方来，不是很令人高兴的吗？人家不了解我，我也不怨恨、恼怒，不也是一个有德的君子吗？」 </p>
+
+<h4>评析</h4>
+
+<p>宋代著名学者<u class="typo-u">朱熹</u>对此章评价极高，说它是「入道之门，积德之基」。本章这三句话是人们非常熟悉的。历来的解释都是：学了以后，又时常温习和练习，不也高兴吗等等。三句话，一句一个意思，前后句子也没有什么连贯性。但也有人认为这样解释不符合原义，指出这里的「学」不是指学习，而是指学说或主张；「时」不能解为时常，而是时代或社会的意思，「习」不是温习，而是使用，引申为采用。而且，这三句话不是孤立的，而是前后相互连贯的。这三句的意思是：自己的学说，要是被社会采用了，那就太高兴了；退一步说，要是没有被社会所采用，可是很多朋友赞同<abbr
+  title="张燕婴">我</abbr>的学说，纷纷到我这里来讨论问题，我也感到快乐；再退一步说，即使社会不采用，人们也不理解我，我也不怨恨，这样做，不也就是君子吗？（见《齐鲁学刊》1986年第6期文）这种解释可以自圆其说，而且也有一定的道理，供读者在理解本章内容时参考。
+</p>
+
+<p>此外，在对「人不知，而不愠」一句的解释中，也有人认为，「人不知」的后面没有宾语，人家不知道什么呢？当时因为孔子有说话的特定环境，他不需要说出知道什么，别人就可以理解了，却给后人留下一个谜。有人说，这一句是接上一句说的，从远方来的朋友向我求教，我告诉他，他还不懂，我却不怨恨。这样，「人不知」就是「人家不知道我所讲述的」了。这样的解释似乎有些牵强。</p>
+
+<p>总之，本章提出以学习为乐事，做到人不知而不愠，反映出孔子学而不厌、诲人不倦、注重修养、严格要求自己的主张。这些思想主张在《论语》书中多处可见，有助于对第一章内容的深入了解。</p>
+
+<h3 id="section2-2">例2：英文排版</h3>
+
+<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+  standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+  type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining
+  essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
+  passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem
+  Ipsum.</p>
+<blockquote>
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+  aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+</blockquote>
+
+<h4>The standard Lorem Ipsum passage, used since the 1500s</h4>
+
+<p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+  aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+  occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+
+<h4>Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC</h4>
+
+<p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam,
+  eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
+  voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
+  voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci
+  velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim
+  ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
+  consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur,
+  vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p>
+
+<h4>List style in action</h4>
+<ul>
+  <li>If you wish to succeed, you should use persistence as your good friend, experience as your reference, prudence as
+    your brother and hope as your sentry.
+    <p>如果你希望成功，当以恒心为良友，以经验为参谋，以谨慎为兄弟，以希望为哨兵。</p>
+  </li>
+  <li>Sometimes one pays most for the things one gets for nothing.
+    <p>有时候一个人为不花钱得到的东西付出的代价最高。</p>
+  </li>
+  <li>Only those who have the patience to do simple things perfectly ever acquire the skill to do difficult things
+    easily.
+    <p>只有有耐心圆满完成简单工作的人，才能够轻而易举的完成困难的事。</p>
+  </li>
+</ul>
+
+<h4>You may want to create a perfect <code>&lt;hr /&gt;</code> line, despite the fact that there will never have one
+</h4>
+<hr/>
+<p><abbr title="法国作家罗切福考尔德">La Racheforcauld</abbr> said:
+  <mark>"Few things are impossible in themselves; and it is often for want of will, rather than of means, that man fails
+    to succeed".
+  </mark>
+  You just need to follow the browser's behavior, and set a right <code>margin</code> to it。it will works nice as the
+  demo you're watching now. The following code is the best way to render typo in Chinese:
+</p>
+<pre>
+	<code class="language-css">
+		/* 标题应该更贴紧内容，并与其他块区分，margin 值要相应做优化 */
+		h1,h2,h3,h4,h5,h6 {
+		    line-height:1;font-family:Arial,sans-serif;margin:1.4em 0 0.8em;
+		}
+		h1{font-size:1.8em;}
+		h2{font-size:1.6em;}
+		h3{font-size:1.4em;}
+		h4{font-size:1.2em;}
+		h5,h6{font-size:1em;}
+
+		/* 现代排版：保证块/段落之间的空白隔行 */
+		.typo p, .typo pre, .typo ul, .typo ol, .typo dl, .typo form, .typo hr {
+		    margin:1em 0 0.6em;
+		}
+	</code>
+</pre>
+
+<h3 id="h3">三、附录</h3>
+
+<h5 id="section3-1">1、<i class="serif">Typo.css</i> 排版偏重点</h5>
+<table summary="Typo.css 排版偏重点">
+  <thead>
+  <tr>
+    <th>类型</th>
+    <th>语义</th>
+    <th>标签</th>
+    <th>注意点</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th rowspan="15">基础标签</th>
+    <td>标题</td>
+    <td><code>h1</code> ～ <code>h6</code></td>
+    <td>全局不强制大小，<code>.typo</code> 中标题与其对应的内容应紧贴，并且有相应的大小设置</td>
+  </tr>
+  <tr>
+    <td>上、下标</td>
+    <td><code>sup</code>/<code>sub</code></td>
+    <td>保持与 MicroSoft Office Word 等程序的日常排版一致</td>
+  </tr>
+  <tr>
+    <td>引用</td>
+    <td><code>blockquote</code></td>
+    <td>显示/嵌套样式</td>
+  </tr>
+  <tr>
+    <td>缩写</td>
+    <td><code>abbr</code></td>
+    <td>是否都有下划线，鼠标 <code>hover</code> 是否为帮助手势</td>
+  </tr>
+  <tr>
+    <td>分割线</td>
+    <td><code>hr</code></td>
+    <td>显示的 <code>padding</code> 和 <code>margin</code>正确</td>
+  </tr>
+  <tr>
+    <td>列表</td>
+    <td><code>ul</code>/<code>ol</code>/<code>dl</code></td>
+    <td>在全局没有 <code>list-style</code>，在 .<code>typo</code> 中对齐正确</td>
+  </tr>
+  <tr>
+    <td>定义列表</td>
+    <td><code>dl</code></td>
+    <td>全局 <code>padding</code> 和 <code>margin</code>为0， .<code>typo</code> 中对齐正确</td>
+  </tr>
+  <tr>
+    <td>选项</td>
+    <td><code>input[type=radio[, checkbox]]</code></td>
+    <td>与其他 <code>form</code> 元素排版时是否居中</td>
+  </tr>
+  <tr>
+    <td>斜体</td>
+    <td><code>i</code></td>
+    <td>只设置一种斜体，让 <code>em</code> 和 <code>cite</code> 显示为正体</td>
+  </tr>
+  <tr>
+    <td>强调</td>
+    <td><code>em</code></td>
+    <td>在全局显示正体，在 <code>.typo</code> 中显示与 <code>b</code> 和 <code>strong</code> 的样式一致，为粗体</td>
+  </tr>
+  <tr>
+    <td>加强</td>
+    <td><code>strong/b</code></td>
+    <td>显示为粗体</td>
+  </tr>
+  <tr>
+    <td>标记</td>
+    <td><code>mark</code></td>
+    <td>类似荧光笔</td>
+  </tr>
+  <tr>
+    <td>印刷</td>
+    <td><code>small</code></td>
+    <td>保持为正确字体的 80% 大小，颜色设置为浅灰色</td>
+  </tr>
+  <tr>
+    <td>表格</td>
+    <td><code>table</code></td>
+    <td>全局不显示线条，在 <code>table</code> 中显示表格外框，并且表头有浅灰背景</td>
+  </tr>
+  <tr>
+    <td>代码</td>
+    <td><code>pre</code>/<code>code</code></td>
+    <td>字体使用 <code>courier</code> 系字体，保持与 <code>serif</code> 有比较一致的显示效果</td>
+  </tr>
+  <tr>
+    <th rowspan="5">特殊符号</th>
+    <td>着重号</td>
+    <td><em class="typo-em">在文字下加点</em></td>
+    <td>在支持 <code>:after</code> 和 <code>:before</code> 的浏览器可以做渐进增强实现</td>
+  </tr>
+  <tr>
+    <td>专名号</td>
+    <td><u>林建锋</u></td>
+    <td>专名号，有下划线，使用 <code>u</code> 或都 <code>.typo-u</code> 类</td>
+  </tr>
+  <tr>
+    <td>破折号</td>
+    <td>——</td>
+    <td>保持一划，而非两划</td>
+  </tr>
+  <tr>
+    <td>人民币</td>
+    <td>&yen;</td>
+    <td>使用两平等线的符号，或者 HTML 实体符号 <code>&amp;yen;</code></td>
+  </tr>
+  <tr>
+    <td>删除符</td>
+    <td>
+      <del>已删除（deleted）</del>
+    </td>
+    <td>一致化各浏览器显示，中英混排正确</td>
+  </tr>
+  <tr>
+    <th rowspan="3">加强类</th>
+    <td>专名号</td>
+    <td><code>.typo-u</code></td>
+    <td>由于 <code>u</code> 被 HTML4 放弃，在向后兼容上推荐使用 <code>.typo-u</code></td>
+  </tr>
+  <tr>
+    <td>着重符</td>
+    <td><code>.typo-em</code></td>
+    <td>利用 <code>:after</code> 和 <code>:before</code> 实现着重符</td>
+  </tr>
+  <tr>
+    <td>清除浮动</td>
+    <td><code>.clearfix</code></td>
+    <td>与一般 CSS Reset 保持一对致 API</td>
+  </tr>
+  <tr>
+    <th rowspan="5">注意点</th>
+    <td colspan="3">（1）中英文混排行高/行距</td>
+  </tr>
+  <tr>
+    <td colspan="3">（2）上下标在 IE 中显示效果</td>
+  </tr>
+  <tr>
+    <td colspan="3">（3）块/段落分割空白是否符合设计原则</td>
+  </tr>
+  <tr>
+    <td colspan="3">（4）input 多余空间问题</td>
+  </tr>
+  <tr>
+    <td colspan="3">（5）默认字体色彩，目前采用 <code>#333</code> 在各种浏览显示比较好</td>
+  </tr>
+  </tbody>
+</table>
+
+<h5 id="section3-2">2、开源许可</h5>
+
+<p><i class="serif">Typo.css</i> 基于 <a href="http://zh.wikipedia.org/wiki/MIT_License">MIT License</a> 开源，使用代码只需说明来源，或者引用 <a
+  href="http://typo.sofi.sh/license.txt">license.txt</a> 即可。</p>
+                        <!--*/-->
+        			</div>
+        			
+        			<!-- 文章标签 -->
+        			<div class="m-padded-lr-responsive">
+        				<div class="ui label left pointing basic teal" th:each="tag:*{tags}" th:text="${tag.name}">方法论</div>
+                        <!--/*-->
+        				<div class="ui label left pointing basic teal">方法论</div>
+        				<div class="ui label left pointing basic teal">方法论</div>
+        				<div class="ui label left pointing basic teal">方法论</div>
+                        <!--*/-->
+        			</div>
+        			
+        			<!-- 赞赏 -->
+        			<div class="ui center aligned basic segment">
+        				<button id="payButton" class="ui basic orange circular button">赞赏</button>
+        			</div>
+        			<div class="ui payCode flowing popup">
+	        			<div class="ui orange basic label">
+	        				<!-- ui images会禁用文字，font-size为0。必须自己定义 。
+	        					但是，segment定义了font-size。
+	        				-->
+							<div class="ui small images">
+								<div class="ui image">
+									<!-- 每块区域由图片和文字组成 -->
+									<img th:src="@{/images/payCode_zhi.jpg}" src="../static/images/payCode_zhi.jpg" class="ui rounded bordered image m-margin-zero" alt="加载失败">
+									<div class="ui center aligned basic segment" style="margin-top: 0;">支付宝</div>
+								</div>
+								<div class="ui image">
+									<!-- 每块区域由图片和文字组成 -->
+									<img  th:src="@{/images/payCode_weixin.jpg}" src="../static/images/payCode_weixin.jpg" class="ui rounded bordered image m-margin-zero" alt="加载失败">
+									<div class="ui center aligned basic segment" style="margin-top: 0;">微信</div>
+								</div>							
+							</div>        				
+	        			</div>        				
+        			</div>
+        		</div>
+        		
+        		<!--
+                	作者：PENG
+                	时间：2020-02-02
+                	描述：博客信息
+                -->
+        		<div class="ui attached positive message">
+        			<!-- ui right aligned grid。aligned只是设置文本对齐方式。 -->
+        			<!-- centered和middle aligned分别针对列水平居中和列垂直居中。 -->
+        			<div class="ui middle aligned grid">
+        				<div class="eleven wide column">
+							<ul class="ui list m-font-big">
+							  	<li class="m-padded-tb-tiny">作者：<span th:text="*{user.nickname}">PENG</span></li>
+							  	<li class="m-padded-tb-tiny">联系作者：2318511681@qq.com</li>
+							  	<li class="m-padded-tb-tiny">发表时间：<span th:text="${#dates.format(blog.createTime,'yyyy-MM-dd HH:mm:ss')}">2020-02-02 23:31</span></li>
+							  	<li class="m-padded-tb-tiny">版权声明：自由装载-非商用-非衍生-保持署名（创意共享3.0许可证）</li>
+							  	<li class="m-padded-tb-tiny">公众号装载：请在文末添加作者公众号二维码</li>
+							</ul>      
+        				</div>
+        				<div class="five wide column">
+        					<img src="../static/images/wechat.jpg" th:src="@{/images/wechat.jpg}" alt="加载失败" class="ui bordered rounded small image right floated"/>
+        				</div>
+        			</div>
+        		</div>
+        		
+        		<!--
+                	作者：PENG
+                	时间：2020-02-02
+                	描述：评论区
+                -->        		
+        		<div id="comment-region" class="ui bottom attached segment">
+                    <!--单个评论模板-->
+                    <div class="comment singleModel m-hidden">
+                        <!--存储评论id-->
+                        <input type="hidden" name="id"/>
+                        <a class="avatar">
+                            <img src="https://i.picsum.photos/id/1005/2515/1830.jpg">
+                        </a>
+                        <div class="content">
+                            <a class="author">Matt</a>
+                            <div class="metadata">
+                                <span class="date">Today at 5:42PM</span>
+                            </div>
+                            <div class="text">
+                                How artistic!
+                            </div>
+                            <div class="actions">
+                                <a class="reply">Reply</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--子评论容器模板-->
+                    <div class="comments childsModel m-hidden"></div>
+
+        			<div class="ui teal segment">
+						<div id="showComments" class="ui comments m-margin-auto">
+							<div class="ui medium header">评论区</div>
+							<div class="ui horizontal divider">Detail</div>
+                            <!--/*-->
+						  	<div class="comment">
+						    	<a class="avatar">
+						      		<img src="https://i.picsum.photos/id/1005/2515/1830.jpg">
+						    	</a>
+						    	<div class="content">
+						      		<a class="author">Matt</a>
+						      		<div class="metadata">
+						        		<span class="date">Today at 5:42PM</span>
+						      		</div>
+						      		<div class="text">
+						        		How artistic!
+						      		</div>
+						      		<div class="actions">
+						        		<a class="reply">Reply</a>
+						      		</div>
+						    	</div>
+						  	</div>
+						  	<div class="comment">
+						    	<a class="avatar">
+						      		<img src="https://i.picsum.photos/id/1005/2515/1830.jpg">
+						    	</a>
+						    	<div class="content">
+						      		<a class="author">Elliot Fu</a>
+						      		<div class="metadata">
+						        		<span class="date">Yesterday at 12:30AM</span>
+						      		</div>
+						      		<div class="text">
+						        		<p>This has been very useful for my research. Thanks as well!</p>
+						      		</div>
+						      		<div class="actions">
+						        		<a class="reply">Reply</a>
+						     		</div>
+						    	</div>
+						    	<div class="comments">
+						      		<div class="comment">
+						        		<a class="avatar">
+						          			<img src="https://i.picsum.photos/id/1005/2515/1830.jpg">
+						        		</a>
+						        		<div class="content">
+						          			<a class="author">Jenny Hess</a>
+						          			<div class="metadata">
+						            			<span class="date">Just now</span>
+						          			</div>
+						          			<div class="text">
+						            			Elliot you are always so right :)
+						         	 		</div>
+						          			<div class="actions">
+						            			<a class="reply">Reply</a>
+						          			</div>
+						        		</div>
+						      		</div>
+						    	</div>
+						  	</div>
+						  	<div class="comment">
+							    <a class="avatar">
+							      	<img src="https://i.picsum.photos/id/1005/2515/1830.jpg">
+							    </a>
+							    <div class="content">
+							      	<a class="author">Joe Henderson</a>
+							      	<div class="metadata">
+							        	<span class="date">5 days ago</span>
+							      	</div>
+							      	<div class="text">
+							       	 	Dude, this is awesome. Thanks so much
+							      	</div>
+							      	<div class="actions">
+							        	<a class="reply">Reply</a>
+							      	</div>
+							    </div>
+						  	</div>
+                            <!--*/-->
+                        </div>
+        			</div>
+
+                    <form id="inputComment" action="#" method="post" class="ui form">
+                        <div class="field">
+                            <textarea name="content" placeholder="请输入评论信息..."></textarea>
+                        </div>
+                        <div class="fields">
+                            <div class="field m-mobile-wide m-margin-bottom-small four wide">
+                                <div class="ui left icon input">
+                                    <i class="user icon"></i>
+                                    <input type="text" name="nickname" placeholder="用户名..."/>
+                                </div>
+                            </div>
+                            <div class="field m-mobile-wide m-margin-bottom-small four wide">
+                                <div class="ui left icon input">
+                                    <i class="mail icon"></i>
+                                    <input type="text" name="mail" placeholder="邮箱..."/>
+                                </div>
+                            </div>
+                            <div class="field m-mobile-wide m-margin-bottom-small four wide">
+                                <div class="ui left icon input">
+                                    <i class="unhide icon"></i>
+                                    <input type="text" name="avatar" placeholder="头像链接..."/>
+                                </div>
+                            </div>
+                            <div class="field m-mobile-wide">
+                                <button type="button" class="ui icon teal button m-mobile-wide m-margin-bottom-small publishBtn">
+                                    <i class="edit icon"></i>
+                                    发布
+                                </button>
+                            </div>
+                            <div class="field m-mobile-wide">
+                                <button type="button" class="ui icon button m-mobile-wide m-margin-bottom-small cancelBtn">
+                                    <i class="cancel icon"></i>
+                                    取消
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        	</div>
+        </div>
+        
+        
+       	<br />
+       	<br />
+       	<!--
+           	作者：PENG
+           	时间：2020-02-04
+           	描述：工具按钮组
+        -->
+        <div id="toolbar" class="m-fixed m-right-bottom m-padded-right-bottom-big m-hidden">
+	        <div class="ui vertical compact buttons">
+	        	<button id="catalogueBtn" class="ui teal button m-text-gt-thin m-padded-normal">目录</button>
+	        	<a href="#comment-region" class="ui teal button m-text-gt-thin m-padded-normal">留言</a>
+	        	<button id="myCodeBtn" class="ui icon teal button m-padded-normal"><i class="wechat icon"></i></button>
+	        	<button id="toTopBtn" class="ui icon teal button m-padded-normal"><i class="angle double up icon"></i></button>
+	        </div>   
+        </div>
+        
+        <!--生成目录的弹窗-->
+		<div class="ui catalogue flowing popup" style="width: 250px;">
+			<div class="js-toc m-padded-lr-small"></div>
+		</div> 
+		
+		<!-- 二维码弹窗 -->
+        <div class="ui flowing popup myCode">
+			<div class="ui small image" style="width: 10em;">
+				<div id="qrcode"></div>
+			</div>                            			
+        </div>
+        <!--
+        	作者：PENG
+        	时间：2020-02-01
+        	描述：页脚
+        -->
+        <footer class="ui inverted vertical segment m-padded-tb-huge" th:replace="~{_fragments::footer}">
+        	<!-- <div class="ui center aligned container" style="border: 1px white solid;"> -->
+        	<div class="ui center aligned container">
+        		<div class="ui stackable inverted divided grid">
+        			<div class="three wide column">
+        				<div class="ui inverted link list">
+        					<div class="item">
+        						<img src="../static/images/wechat.jpg" alt="图片不见了" class="ui rounded image" style="width: 120px;" />
+        					</div>
+        				</div>
+        			</div>
+        			<div class="three wide column">
+        				<h4 class="ui inverted header m-opacity-mini m-text-spaced m-text-normal">最新博客</h4>
+        				<div class="ui inverted link list">
+        					<a href="#" class="item">用户故事(User Story)</a>
+        					<a href="#" class="item">用户故事(User Story)</a>
+        					<a href="#" class="item">用户故事(User Story)</a>
+        					<a href="#" class="item">用户故事(User Story)</a>
+        				</div>
+        			</div>
+        			<div class="three wide column">
+        				<h4 class="ui inverted header m-opacity-mini m-text-spaced m-text-normal">联系我</h4>
+        				<div class="ui inverted link list">
+        					<a href="#" class="item">Emial: 2318511681@qq.com</a>
+        					<a href="#" class="item">QQ: 2318511681</a>
+        				</div>
+        			</div>
+        			<div class="seven wide column">
+        				<h4 class="ui inverted header m-opacity-mini m-text-spaced m-text-normal">作者简介</h4>
+        				<p class="m-opacity-mini m-text-spaced m-text-thin">大家数据的赛季的怕死就打死的骄傲喷水电机安排是件大事拍大师庞大</p>
+        			</div>
+        		</div>
+        		<div class="ui inverted section divider"></div>
+        		<p class="m-opacity-small m-text-spaced m-text-thin">Copyright 2020-20XX by PENG</p>
+        	</div>
+        </footer>
+        <!--    辅助a标签，借助thymeleaf模板引擎解析url值    -->
+        <a id="asyncUrl" href="#" th:href="@{/content/{id}(id=${blog.id})}" class="m-hidden"></a>
+        <a id="asyncUrlForGetComments" href="data/comments.json" th:href="@{/comments/{id}(id=${blog.id})}"></a>
+        <a id="asyncUrlForCommentBlog" href="#" th:href="@{/comment/{id}(id=${blog.id})}"></a>
+        <a id="asyncUrlForReplyComment" href="#" th:href="@{/reply}"></a>
+        <!-- Jquery必须声明在前 -->
+        <!--/*/ <th:block th:replace="~{_fragments::script}"> /*/-->
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+ 		<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+ 		<script src="https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+ 		<script src="../static/lib/prism/prism.js"></script>
+ 		<script src="../static/lib/tocbot/tocbot.min.js"></script>
+ 		<script src="../static/lib/qrcode/qrcode.min.js"></script>
+ 		<script src="../static/lib/waypoints/jquery.waypoints.min.js"></script>
+        <!--/*/ </th:block> /*/-->
+		<script type="text/javascript">
+            var comments=[];
+
+            //给文章的标题设置id属性值。
+            function setId(prefix,headers){
+//  			$(selector).each(function(index,element))
+                $(headers).each(function(index,item){
+                    $(item).prop('id',prefix+''+index);
+                });
+            }
+            function setIdForHeaders() {
+                var $h1s=$('#wrapper').find('h1');
+                var $h2s=$('#wrapper').find('h2');
+                var $h3s=$('#wrapper').find('h3');
+                var $h4s=$('#wrapper').find('h4');
+                var $h5s=$('#wrapper').find('h5');
+                var $h6s=$('#wrapper').find('h6');
+                console.log('h1-->'+$h1s.length);
+                console.log('h2-->'+$h2s.length);
+                console.log('h3-->'+$h3s.length);
+                console.log('h4-->'+$h4s.length);
+                console.log('h5-->'+$h5s.length);
+                console.log('h6-->'+$h6s.length);
+                setId('h1_',$h1s);
+                setId('h2_',$h2s);
+                setId('h3_',$h3s);
+                setId('h4_',$h4s);
+                setId('h5_',$h5s);
+                setId('h6_',$h6s);
+            }
+            //--------------------------弹出目录----------
+            function generateCatalog(){
+                tocbot.init({
+                    // Where to render the table of contents.
+                    tocSelector: '.js-toc',
+                    // Where to grab the headings to build the table of contents.
+                    contentSelector: '.js-toc-content',
+                    // Which headings to grab inside of the contentSelector element.
+                    headingSelector: 'h1,h2, h3,h4,h5,h6',
+                    // For headings inside relative or absolute positioned containers within content.
+                    hasInnerContainers: true,
+                });
+            }
+            //将时间戳转换成 yyyy-MM-dd HH:mm:ss
+            function formatDate(inputTime) {
+                var date = new Date(inputTime);
+                var y = date.getFullYear();
+                var m = date.getMonth() + 1;
+                m = m < 10 ? ('0' + m) : m;
+                var d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                var h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                var minute = date.getMinutes();
+                var second = date.getSeconds();
+                minute = minute < 10 ? ('0' + minute) : minute;
+                second = second < 10 ? ('0' + second) : second;
+                return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+            }
+            //搜索按钮触发
+            function globalSearch(obj) {
+                $('#globalSearchForm').submit();
+            }
+            //文档准备事件
+			$(function(){
+                //评论的祖先区域。所有一级评论容器。
+                var ancestor=$('#showComments');
+                //克隆一个表单，用于回复评论！
+                var inputChildCommentForm=$('#inputComment').clone();
+                inputChildCommentForm.find('button').addClass('tiny');
+                inputChildCommentForm.find('button').unbind('click');
+                inputChildCommentForm.prop('id','inputChildCommentForm');
+                inputChildCommentForm.find('.cancelBtn').click(function(){
+                    inputChildCommentForm.hide();
+                });
+                inputChildCommentForm.find('.publishBtn').click(function(){
+                    //得到评论的id
+                    var id=inputChildCommentForm.parent().children('input[name="id"]').val();
+                    var params={
+                        content: inputChildCommentForm.find('textarea').val(),
+                        nickname: inputChildCommentForm.find('input[name="nickname"]').val(),
+                        mail: inputChildCommentForm.find('input[name="mail"]').val(),
+                        avatar: inputChildCommentForm.find('input[name="avatar"]').val()
+                    };
+                    //发送异步请求
+                    $.ajax({
+                        async: true,
+                        type: 'post',
+                        url: $('#asyncUrlForReplyComment').prop('href')+'/'+id,
+                        data: JSON.stringify(params),//必须转成字符串，不能是JS对象！
+                        contentType:'application/json',//默认是表单提交application/x-www-form-urlencoded
+                        success: function (result) {
+                            replySuccess(result);
+                        }
+                    });
+                });
+                //回复成功的回调方法
+                function replySuccess(info){
+                    inputChildCommentForm.hide();
+                    var parentComment=inputChildCommentForm.parent();//每个回复表单的父亲都是commentDiv。
+                    replyComment(parentComment,info);
+                }
+                //给博客评论成功的回调
+                function sendCommentSuccess(info){
+                    createOneLevelComment(ancestor,info);
+                }
+
+                //手机端菜单开关
+				$(".menu-toggle").click(function(){
+					//控制m-mobile-hidden的有无。
+					$(".item-toggle").toggleClass("m-mobile-hidden");
+				});
+                //修改搜索表单的action和method
+                $('#globalSearchForm').prop('action',$('#searchPageUrl').prop('href'));
+                $('#globalSearchForm').prop('method','get');
+                //赞赏弹窗
+			    $('#payButton').popup({
+			    	//两个class之间不能空格。
+			      	popup : $('.payCode.popup'),
+			      	on : 'click',
+			      	position: 'bottom center'
+			    });
+			    //目录弹窗
+			    $('#catalogueBtn').popup({
+			    	//两个class之间不能空格。
+			      	popup : $('.catalogue'),
+			      	on : 'click',
+			      	position: 'left center'
+			    });			
+			    //-----------------弹出二维码
+			    $('#myCodeBtn').popup({
+			    	popup:$('.myCode'),
+			    	position:'left center',
+			    	on:'click'
+			    });
+			    //--------------------生成二维码
+                var codeUrl=window.location;
+                console.log('codeUrl='+codeUrl);
+				var qrcode = new QRCode("qrcode", {
+					text: codeUrl
+				});			    
+				//---------------------平滑滚动
+				$("#toTopBtn").click(function(){
+					$(window).scrollTo(0,500);
+				});
+				
+				//------------滚动侦测
+				var waypoint = new Waypoint({
+				  element: document.getElementById('wrapper'),
+				  handler: function(direction) {
+//				    console.log('Scrolled to waypoint!'+direction);
+				    if(direction=='down'){
+				    	$("#toolbar").removeClass('m-hidden');
+				    	$("#toolbar").show(500);
+				    }
+				    if(direction=='up'){
+				    	$("#toolbar").hide(500);
+				    }
+				  }
+				});
+				//异步请求博客内容
+                $.ajax({
+                    async:true,
+                    type:'get',
+                    url:$('#asyncUrl').prop('href'),
+                    success:function(result){
+                        console.log('success');
+                        $("#wrapper").html(marked(result));
+                        $("pre").addClass("language-");
+                        setIdForHeaders();
+                        generateCatalog();
+                    }
+                });
+
+                //显示回复表单
+                function showInputChildCommentForm(){
+                    inputChildCommentForm.find('input').val('');
+                    inputChildCommentForm.find('textarea').val('');
+                    inputChildCommentForm.show();
+                }
+                //创建一个评论。异步评论/回复成功后，创建一个评论。
+                function createOneLevelComment(parentDiv,info){
+                    //添加评论数量
+                    var showToltalComments=$('.horizontal.divider').children('span');
+                    var countOfComments=showToltalComments.text();
+                    showToltalComments.text(parseInt(countOfComments)+1);
+                    //先加单个评论
+                    var child=$('.singleModel').clone();
+                    child.removeClass('singleModel');
+                    child.removeClass('m-hidden');
+                    //给child设置信息
+                    child.find('input').val(info.id);
+                    child.find('img').prop('src',info.avatar);
+                    child.find('.author').text(info.nickname);
+                    child.find('.date').text(formatDate(info.publish_time));
+                    child.find('.text').text(info.content);
+                    child.find('.reply').text('回复');
+//						child.find('.reply').prop('href','#inputComment');
+                    child.find('.reply').click(function(){
+                        showInputChildCommentForm();
+                        if(child.children('.comments').length!=0){//有子评论区
+                            child.children('.comments').before(inputChildCommentForm);
+                        }else{
+                            child.append(inputChildCommentForm);
+                        }
+                    });
+                    if(parentDiv.parents('.comment').length!=0){//是回复评论
+                        parentDiv.prepend(child);
+                    }else{//评论博客
+                        parentDiv.append(child);
+                    }
+                }
+                //回复评论
+                function replyComment(parentCommentDiv,info){
+                    var childsContainer;
+                    if(parentCommentDiv.children('.comments').length==0){//没有找到子评论区，切记是找直接子元素
+                        childsContainer=$('.childsModel').clone();
+                        childsContainer.removeClass('childsModel');
+                        childsContainer.removeClass('m-hidden');
+                        parentCommentDiv.append(childsContainer);
+                    }else{
+                        childsContainer=parentCommentDiv.children('.comments');//找到的直接子评论区，不要孙子评论区，不能用find方法
+                    }
+                    //往子评论区添加一级评论
+                    createOneLevelComment(childsContainer,info);
+                }
+                var totalComments=0;
+                //页面加载时，显示所有评论。
+                function createComments(parentComments,comments){
+                    totalComments+=comments.length;
+                    $(comments).each(function(index,item){
+                        //先加单个评论
+                        var child=$('.singleModel').clone();
+                        child.removeClass('singleModel');
+                        child.removeClass('m-hidden');
+                        //给child设置信息
+                        child.find('input').val(item.id);
+                        child.find('img').prop('src',item.avatar);
+                        child.find('.author').text(item.nickname);
+                        child.find('.date').text(formatDate(item.publish_time));
+                        child.find('.text').text(item.content);
+                        child.find('.reply').text('回复');
+//						child.find('.reply').prop('href','#inputComment');
+                        child.find('.reply').click(function(){
+                            showInputChildCommentForm();
+                            if(child.children('.comments').length!=0){//有子评论区
+                                child.children('.comments').before(inputChildCommentForm);
+                            }else{
+                                child.append(inputChildCommentForm);//inputChildCommentForm不是克隆对象，会移动！
+                            }
+                        });
+
+                        //加入到父亲
+                        parentComments.append(child);
+
+                        //再判断是否有子评论
+                        if(item.childs.length>0){
+                            var childsContainer=$('.childsModel').clone();
+                            childsContainer.removeClass('childsModel');
+                            childsContainer.removeClass('m-hidden');
+                            child.append(childsContainer);
+                            createComments(childsContainer,item.childs);//自己调用自己解决相同问题
+                        }
+                    });
+                }
+                //异步请求获取所有评论
+                $.ajax({
+                    async: true,
+                    url: $('#asyncUrlForGetComments').prop('href'),
+                    type: 'get',
+                    success:function(result){
+                        comments=result;
+                        //获取成功，将评论区创建出来
+                        createComments(ancestor,comments);
+                        //显示有多少条评论
+                        $('#showComments').children('.horizontal.divider').html('共<span>'+totalComments+'</span>条评论');
+                    }
+                });
+                //点击评论的发布按钮
+                var $inputFirstCommentForm= $('#inputComment');
+                $inputFirstCommentForm.find('.publishBtn').click(function(){
+                    var params={
+                        content: $inputFirstCommentForm.find('textarea').val(),
+                        nickname: $inputFirstCommentForm.find('input[name="nickname"]').val(),
+                        mail: $inputFirstCommentForm.find('input[name="mail"]').val(),
+                        avatar: $inputFirstCommentForm.find('input[name="avatar"]').val()
+                    };
+                    //发送异步请求
+                    $.ajax({
+                        async: true,
+                        type: 'post',
+                        url: $('#asyncUrlForCommentBlog').prop('href'),
+                        data: JSON.stringify(params),
+                        contentType:'application/json',//默认是表单提交application/x-www-form-urlencoded
+                        success: function (result) {
+                            sendCommentSuccess(result);
+                       }
+                    });
+                });
+                //点击评论的取消按钮
+                $inputFirstCommentForm.find('.cancelBtn').click(function(){
+                    $inputFirstCommentForm.find('input').val('');
+                    $inputFirstCommentForm.find('textarea').val('');
+                });
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="~{management/_fragments::head('分类管理')}">
+		<meta charset="UTF-8"/>
+		<title>分类管理</title>
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no"/>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+		<link rel="stylesheet" href="../../static/css/me.css">
+	</head>
+	<body>
+		<!--
+        	作者：PENG
+        	时间：2020-02-01
+        	描述：导航
+        -->
+		<nav class="ui inverted segment m-padded-tb-mini m-shadow-small top attached" th:replace="~{management/_fragments::navigation('type')}">
+			<div class="ui container">
+				<div class="ui inverted stackable secondary menu">
+					<h2 class="ui teal header item">后台管理</h2>
+					<a href="#" class="item m-mobile-hidden item-toggle"><i class="home icon"></i>博客</a>
+					<a href="#" class="item m-mobile-hidden item-toggle active"><i class="idea icon"></i>分类</a>
+					<a href="#" class="item m-mobile-hidden item-toggle"><i class="tags icon"></i>标签</a>
+					
+					<div class="right menu m-mobile-hidden item-toggle">
+						<div class="ui dropdown item">
+							<div class="text">
+								<img src="../../static/images/headerImg.jpeg" alt="" class="ui small circular image"/>
+								PENG
+							</div>
+							<i class="dropdown icon"></i>
+							<!-- .ui.dropdown .menu的display为none 。
+								也就是说dropdown下的menu不显示
+							-->
+							<div class="ui menu">
+								<a href="#" class="item">注销</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ui icon button black m-right-top m-pc-hidden menu-toggle menu">
+			  <i class="sidebar icon"></i>
+			</div>			
+		</nav>
+		<!--
+        	作者：PENG
+        	时间：2020-02-03
+        	描述：二级导航
+        	导航用menu做！
+        -->
+	    <div class="ui bottom attached pointing menu" th:replace="~{management/_fragments::secondaryNavigation('list','type')}">
+    		<div class="ui container">
+    			<!-- menu里面嵌套menu。但是，可以浮动，right menu -->
+    			<div class="ui right menu m-border-zero">
+ 	        		<a href="#" class="item">发布</a>
+	        		<a href="#" class="active teal item">列表</a>   				
+    			</div>
+	        </div>
+    	</div>
+		
+		<!--
+        	作者：PENG
+        	时间：2020-02-01
+        	描述：主体
+        -->
+        <!--
+        	 主体部分必须往中间缩一点才好看，不应该和导航及页脚同宽！
+        	解决方案：自己定义自己的container，自己设置max-width（变下点），切记设置margin:auto;居中对齐。
+        -->
+        <div class="m-padded-tb-large m-container-small">
+        	
+        	<!-- 用了框架的container之后，它会针对不同终端（不同屏幕大小）选择最好的显示效果 -->
+        	<div class="ui container">
+        		
+        		<!--
+                	作者：PENG
+                	时间：2020-02-03
+                	描述：header
+                -->
+        		<div class="ui top attached segment padded">
+        			<h3 class="ui teal header">分类列表</h3>
+        		</div>
+    			<!--
+                	作者：PENG
+                	时间：2020-02-03
+                	描述：查询表单
+                --> 
+        		<div class="ui attached segment padded m-padded-lr-small">
+        			<form id="searchForm" action="#" th:action="@{/manage/type/search}" method="post" class="ui form">
+        				<!-- 使用grid来布局form区域！！！ -->
+        				<div class="ui grid middle aligned stackable">
+        					<div class="row">
+        						<div class="twelve wide column">
+						        	<div class="field">
+					          			<input type="text" name="name" placeholder="名称">
+						        	</div>
+        						</div>
+        						<div class="two wide column">
+								    <div class="field">
+										<div id="searchBtn" class="ui vertical animated button teal basic tiny">
+										  <div class="visible content">搜索</div>
+										  <div class="hidden content">
+										    <i class="search icon"></i>
+										  </div>
+										</div>
+								    </div>        							
+        						</div>        						
+        					</div>        					
+        				</div>
+        			</form>
+        		</div>
+        		
+    			<!--
+                	作者：PENG
+                	时间：2020-02-03
+                	描述：表格
+                -->
+                <div class="ui bottom attached segment padded m-padded-lr-small m-padded-bottom-big">
+					<div class="ui message" th:if="${message}!=null" th:object="${message}" th:classappend="*{code==-2}?'negative m-block':'positive m-block'">
+						<i class="close icon"></i>
+						<div class="header">
+							消息提示
+						</div>
+						<p th:text="*{msg}">
+							显示消息
+						</p>
+					</div>
+					<div class="ui container" id="tableContainer">
+						<table class="ui celled table center aligned" th:fragment="table">
+						  <thead>
+							<tr>
+								<th></th>
+								<th>名称</th>
+								<th>操作</th>
+							</tr>
+						  </thead>
+						  <tbody>
+							<tr th:each="type,iterStat:${page.content}">
+								<td th:text="${iterStat.count}">1</td>
+								<td th:text="${type.name}">SpringBoot</td>
+								<td>
+									<a href="#" th:href="@{/manage/type/edit(id=${type.id})}" class="ui tiny teal basic button">编辑</a>
+									<a href="#" th:href="@{/manage/type/del(id=${type.id})}" class="ui tiny red basic button">删除</a>
+								</td>
+							</tr>
+						  </tbody>
+						  <tfoot class="left aligned">
+							<tr>
+								<th colspan="3">
+									<div class="ui tiny pagination menu" th:unless="${page.totalPages<=1}">
+									  <a class="icon item" th:unless="${page.isFirst() || searching!=null}" th:href="@{/manage/type(page=${(page.number)-1})}">
+										<i class="left arrow icon"></i>上一页
+									  </a>
+									  <a class="item" th:unless="${page.isLast() || searching!=null}" th:href="@{/manage/type(page=${(page.number)+1})}">
+										下一页<i class="right arrow icon"></i>
+									  </a>
+									<!--/*/
+									  <a onclick="pressPage(this)" class="icon item" th:unless="${page.isFirst() || searching==null}" th:attr="data-action=@{/manage/type/search(page=${(page.number)-1})}">
+										<i class="left arrow icon"></i>上一页
+									  </a>
+									  <a onclick="pressPage(this)" class="item" th:unless="${page.isLast() || searching==null}" th:attr="data-action=@{/manage/type/search(page=${(page.number)+1})}">
+										下一页<i class="right arrow icon"></i>
+									  </a>
+									/*/-->
+									</div>
+									<a href="#" th:href="@{/manage/type/publish}" class="ui tiny teal basic button right floated">新增</a>
+								</th>
+							</tr>
+						  </tfoot>
+						</table>
+					</div>
+                </div>
+        	</div>
+        </div>
+        
+        
+       	<br />
+       	<br />
+        <!--
+        	作者：PENG
+        	时间：2020-02-01
+        	描述：页脚
+        -->
+        <footer class="ui inverted vertical segment m-padded-tb-huge" th:replace="~{management/_fragments::footer}">
+        	<!-- <div class="ui center aligned container" style="border: 1px white solid;"> -->
+        	<div class="ui center aligned container">
+        		<div class="ui stackable inverted divided grid">
+        			<div class="three wide column">
+        				<div class="ui inverted link list">
+        					<div class="item">
+        						<img src="../../static/images/wechat.jpg" alt="图片不见了" class="ui rounded image" style="width: 120px;" />
+        					</div>
+        				</div>
+        			</div>
+        			<div class="three wide column">
+        				<h4 class="ui inverted header m-opacity-mini m-text-spaced m-text-normal">最新博客</h4>
+        				<div class="ui inverted link list">
+        					<a href="#" class="item">用户故事(User Story)</a>
+        					<a href="#" class="item">用户故事(User Story)</a>
+        					<a href="#" class="item">用户故事(User Story)</a>
+        					<a href="#" class="item">用户故事(User Story)</a>
+        				</div>
+        			</div>
+        			<div class="three wide column">
+        				<h4 class="ui inverted header m-opacity-mini m-text-spaced m-text-normal">联系我</h4>
+        				<div class="ui inverted link list">
+        					<a href="#" class="item">Emial: 2318511681@qq.com</a>
+        					<a href="#" class="item">QQ: 2318511681</a>
+        				</div>
+        			</div>
+        			<div class="seven wide column">
+        				<h4 class="ui inverted header m-opacity-mini m-text-spaced m-text-normal">作者简介</h4>
+        				<p class="m-opacity-mini m-text-spaced m-text-thin">大家数据的赛季的怕死就打死的骄傲喷水电机安排是件大事拍大师庞大</p>
+        			</div>
+        		</div>
+        		<div class="ui inverted section divider"></div>
+        		<p class="m-opacity-small m-text-spaced m-text-thin">Copyright 2020-20XX by PENG</p>
+        	</div>
+        </footer>
+        <!-- Jquery必须声明在前 -->
+        <!-- /*/ <th:block th:replace="~{management/_fragments::script(false)}"> /*/ -->
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+ 		<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$(".menu-toggle").click(function(){
+					//控制m-mobile-hidden的有无。
+					$(".item-toggle").toggleClass("m-mobile-hidden");
+				});
+				
+				$(".ui.dropdown").dropdown({
+					on:'hover'
+				});
+			});
+		</script>
+		<!-- /*/ </th:block> /*/ -->
+		<script>
+			$(function () {
+				$('.close.icon').click(function () {
+					$(this).parent().removeClass("m-block");
+					$(this).parent().addClass("m-hidden");
+				});
+
+				$('#searchBtn').click(function () {
+					$('#tableContainer').load($('#searchForm').attr('action'),{
+						"name" : $("input[name='name']").val()
+					});
+				});
+			});
+			function pressPage(obj) {
+				$('#tableContainer').load($(obj).data('action'),{
+					"name" : $("input[name='name']").val()
+				});
+			}
+		</script>
+	</body>
+</html>

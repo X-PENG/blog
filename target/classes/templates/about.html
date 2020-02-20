@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="_fragments::head('关于我')">
+		<meta charset="UTF-8"/>
+		<title>关于我</title>
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no"/>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+		<link rel="stylesheet" href="../static/css/me.css">
+	</head>
+	<body>
+		<!--
+        	作者：PENG
+        	时间：2020-02-01
+        	描述：导航
+        -->
+		<nav class="ui inverted segment m-padded-tb-mini m-shadow-small" th:replace="_fragments::navigation('about')">
+			<div class="ui container">
+				<div class="ui inverted stackable secondary menu">
+					<h2 class="ui teal header item">PENG</h2>
+					<a href="#" class="item m-mobile-hidden item-toggle"><i class="home icon"></i>首页</a>
+					<a href="#" class="item m-mobile-hidden item-toggle"><i class="idea icon"></i>分类</a>
+					<a href="#" class="item m-mobile-hidden item-toggle"><i class="tags icon"></i>标签</a>
+					<a href="#" class="item m-mobile-hidden item-toggle"><i class="clone icon"></i>归档</a>
+					<a href="#" class="active item m-mobile-hidden item-toggle"><i class="info icon"></i>关于我</a>
+					<div class="right item m-mobile-hidden item-toggle">
+						<div class="ui icon inverted transparent input">
+							<input type="text" placeholder="Search..."/>
+							<i class="search link icon"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ui icon button black m-right-top m-pc-hidden menu-toggle menu">
+			  <i class="sidebar icon"></i>
+			</div>			
+		</nav>
+		
+		<!--
+        	作者：PENG
+        	时间：2020-02-01
+        	描述：主体
+        -->
+        <!-- 
+        	心得：container会根据父元素的最大宽度max-width来调整自己的最大宽度。
+        	如果不加m-container类，则导航、主题、footer部分的container的父元素都是一样宽（浏览器宽度），
+        	此时，这三个container的max-width就是一样的。
+        	
+        	限制主体部分的container父元素的max-width小于浏览器宽度，就会使主题的container的max-width也变小。
+        -->
+        <div class="m-padded-tb-large m-container">
+        	<!-- 去掉container此时没影响，因为我自己定义了自己的container -->
+        	<div class="ui container">
+        		<div class="ui grid stackable">
+        			<!--
+                    	作者：PENG
+                    	时间：2020-02-02
+                    	描述：左边内容
+                    -->
+        			<div class="eleven wide column">
+        				<div class="ui segment">
+        					<img src="https://i.picsum.photos/id/665/800/500.jpg" alt="" class="ui rounded image" />
+        				</div>
+        			</div>
+        			<!--
+                    	作者：PENG
+                    	时间：2020-02-02
+                    	描述：右边内容
+                    -->
+        			<div class="five wide column">
+        				<div class="ui segments">
+        					<div class="ui segment">
+        						<h3 class="ui header">关于我</h3>
+        					</div>
+        					<div class="ui segment">
+        						<p class="m-text-indent">马云，男，汉族，中共党员 ，1964年9月10日生于浙江省杭州市，祖籍浙江省嵊州市谷来镇， 阿里巴巴集团主要创始人，现担任日本软银董事、大自然保护协会中国理事会主席兼全球董事会成员、华谊兄弟董事、生命科学突破奖基金会董事、联合国数字合作高级别小组联合主席。</p>
+        						<p class="m-text-indent">1999年3月，马云正式辞去公职，后来被称为18罗汉的马云团队回到杭州，凑够50万元人民币创建阿里开始了新一轮创业，开发阿里巴巴网站。</p>
+        					</div>
+        					<div class="ui segment">
+        						<div class="ui orange basic left pointing label">编程</div>
+        						<div class="ui orange basic left pointing label">写作</div>
+        						<div class="ui orange basic left pointing label">摄影</div>
+        						<div class="ui orange basic left pointing label">运动</div>
+        					</div>  
+         					<div class="ui segment">
+        						<div class="ui teal basic left pointing label m-margin-tb-tiny">Java</div>
+        						<div class="ui teal basic left pointing label m-margin-tb-tiny">Python</div>
+        						<div class="ui teal basic left pointing label m-margin-tb-tiny">React</div>
+        						<div class="ui teal basic left pointing label m-margin-tb-tiny">JavaScript</div> 
+        						<div class="ui teal basic left pointing label m-margin-tb-tiny">MySql</div> 
+        						<div class="ui teal basic left pointing label m-margin-tb-tiny">...</div> 
+        					</div>
+        					<div class="ui segment">
+        						<a th:href="@{https://github.com/X-PENG}" href="#" target="_blank" id="myGithub" class="ui circular icon button">
+        							<i class="github icon"></i>
+        						</a>
+        						
+        						<a id="myWechat" href="#" class="ui circular icon button">
+        							<i class="wechat icon"></i>
+        						</a>
+        						
+        						<a id="myQQ" href="#" class="ui circular icon button" data-html="<div class='ui orange basic label'>QQ：2318511681</div>" data-position="bottom center">
+        							<i class="qq icon"></i>
+        						</a>
+        					</div>
+        					<!--
+                            	作者：PENG
+                            	时间：2020-02-03
+                            	描述：弹出的二维吗
+                            -->
+                            <div class="ui flowing popup myCode">
+                            	<div class="ui basic orange label">
+									<div class="ui small image">
+										<img th:src="@{/images/wechat.jpg}" src="../static/images/wechat.jpg" class="ui rounded bordered image m-margin-zero">
+									</div>                            			
+			        			</div>                             	
+                            </div>
+        				</div>
+        			</div>
+        		</div>
+        	</div>
+        </div>
+        
+        
+       	<br />
+       	<br />
+        <!--
+        	作者：PENG
+        	时间：2020-02-01
+        	描述：页脚
+        -->
+        <footer class="ui inverted vertical segment m-padded-tb-huge" th:replace="_fragments::footer">
+        	<!-- <div class="ui center aligned container" style="border: 1px white solid;"> -->
+        	<div class="ui center aligned container">
+        		<div class="ui stackable inverted divided grid">
+        			<div class="three wide column">
+        				<div class="ui inverted link list">
+        					<div class="item">
+        						<img src="../static/images/wechat.jpg" alt="图片不见了" class="ui rounded image" style="width: 120px;" />
+        					</div>
+        				</div>
+        			</div>
+        			<div class="three wide column">
+        				<h4 class="ui inverted header m-opacity-mini m-text-spaced m-text-normal">最新博客</h4>
+        				<div class="ui inverted link list">
+        					<a href="#" class="item">用户故事(User Story)</a>
+        					<a href="#" class="item">用户故事(User Story)</a>
+        					<a href="#" class="item">用户故事(User Story)</a>
+        					<a href="#" class="item">用户故事(User Story)</a>
+        				</div>
+        			</div>
+        			<div class="three wide column">
+        				<h4 class="ui inverted header m-opacity-mini m-text-spaced m-text-normal">联系我</h4>
+        				<div class="ui inverted link list">
+        					<a href="#" class="item">Emial: 2318511681@qq.com</a>
+        					<a href="#" class="item">QQ: 2318511681</a>
+        				</div>
+        			</div>
+        			<div class="seven wide column">
+        				<h4 class="ui inverted header m-opacity-mini m-text-spaced m-text-normal">作者简介</h4>
+        				<p class="m-opacity-mini m-text-spaced m-text-thin">大家数据的赛季的怕死就打死的骄傲喷水电机安排是件大事拍大师庞大</p>
+        			</div>
+        		</div>
+        		<div class="ui inverted section divider"></div>
+        		<p class="m-opacity-small m-text-spaced m-text-thin">Copyright 2020-20XX by PENG</p>
+        	</div>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+		<script>
+			$(function(){
+				$(".menu-toggle").click(function(){
+					//控制m-mobile-hidden的有无。
+					$(".item-toggle").toggleClass("m-mobile-hidden");
+				});
+				
+			    $('#myQQ').popup();
+			    
+			    $('#myWechat').popup({
+			    	popup:$('.myCode'),
+			    	position:'top center'
+			    });
+
+				$('#globalSearchForm').prop('action',$('#searchPageUrl').prop('href'));
+				$('#globalSearchForm').prop('method','get');
+			});
+			function globalSearch(obj) {
+				$('#globalSearchForm').submit();
+			}
+		</script>
+	</body>
+</html>

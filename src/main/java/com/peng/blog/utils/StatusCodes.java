@@ -9,4 +9,6 @@ public class StatusCodes {
     public static final int DEL_SUCCESS=2;
     public static final int DEL_FAIL=-2;
     public static final int SEARCH_EMPTY=0;
+    public static final int UPLOAD_SUCCESS=3;
+    public static final int UPLOAD_FAIL=-3;
 }

@@ -79,7 +79,15 @@
                 	描述：header
                 -->
         		<div class="ui top attached segment padded">
-        			<h3 class="ui teal header">博客发布</h3>
+					<div class="ui middle aligned two column grid">
+						<div class="column">
+							<h3 class="ui teal header">博客发布</h3>
+						</div>
+						<div class="right aligned column">
+							<input type="file" id="uploadInput" name="img" accept=".png,.jpg,.jpeg" class="m-hidden"/>
+							<button id="uploadBtn" class="ui teal small icon button">上传图片</button>
+						</div>
+					</div>
         		</div>
 				<!--
                 	作者：PENG
@@ -87,6 +95,15 @@
                 	描述：form
                 -->
                 <div class="ui segment bottom attached">
+					<div id="uploadMessage" class="ui message m-hidden">
+						<i class="close icon"></i>
+						<div class="header">
+							消息提示
+						</div>
+						<p>
+							显示消息
+						</p>
+					</div>
 					<div th:replace="~{management/_fragments::message(1)}"></div>
                 	<form id="publishForm" action="#" th:action="@{/manage/blog/add}" th:object="${blog}" method="post" class="ui form">
 						<input type="hidden" name="publish_toggle">
@@ -255,7 +272,7 @@
                 			</div>
                 			
                 			<!--
-                            	作者：offline
+                            	作者：PENG
                             	时间：2020-02-04
                             	描述：错误提示
                             -->
@@ -311,8 +328,13 @@
         </footer>
 		<!-- 作为辅助工具的，取得表达式的值 -->
 		<a id="editorUtils" href="../../static/lib/editormd/lib/" th:href="@{/lib/editormd/lib/}" class="m-hidden"></a>
+		<a id="uploadUrl" href="#" th:href="@{/upload}" class="m-hidden"></a>
         <!-- Jquery必须声明在前 -->
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+		<!--	必须有顺序！	-->
+		<script th:src="@{/js/jquery.ui.widget.js}" src="../../static/js/jquery.ui.widget.js" type="text/javascript" charset="utf-8"></script>
+		<script th:src="@{/js/jquery.iframe-transport.js}" src="../../static/js/jquery.iframe-transport.js" type="text/javascript" charset="utf-8"></script>
+		<script th:src="@{/js/jquery.fileupload.js}" src="../../static/js/jquery.fileupload.js" type="text/javascript" charset="utf-8"></script>
  		<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
  		<script src="../../static/lib/editormd/editormd.min.js" th:src="@{/lib/editormd/editormd.min.js}"></script>
 		<script type="text/javascript" th:inline="javascript">
@@ -399,6 +421,36 @@
 				//关闭消息
 				$('.close.icon').click(function () {
 					$(this).parent().hide();
+				});
+
+				//初始化文件上传组件
+				$('#uploadBtn').click(function(){
+					$('#uploadInput').click();
+				});
+				$('#uploadInput').fileupload({
+					autoUpload:true,
+					url:$('#uploadUrl').prop('href'),
+					type:'post',
+					dataType:'json',
+					done:function (e,data) {
+						var $message=$('#uploadMessage');
+						//必须使用data.result才能取得返回的Message对象！
+						if(data.result.code==3){//上传成功
+							$message.addClass('positive');
+						}else{
+							$message.addClass('negative');
+						}
+						$message.children("p").text(data.result.msg);
+						$message.removeClass('m-hidden');
+						$message.show();
+					},
+					fail:function(){
+						var $message=$('#uploadMessage');
+						$message.addClass('negative');
+						$message.children("p").text('error:服务器发生未知错误');
+						$message.removeClass('m-hidden');
+						$message.show();
+					}
 				});
 			});
 		</script>

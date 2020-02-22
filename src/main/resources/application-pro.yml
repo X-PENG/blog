@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url:
+    url: jdbc:mysql://localhost/blog?characterEncoding=UTF-8
     username: root
     password: 0174014XZP
   jpa:

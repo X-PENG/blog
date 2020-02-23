@@ -1,9 +1,12 @@
 package com.peng.blog.configuration;
 
+import com.peng.blog.properties.UploadFileProperties;
 import com.peng.blog.interceptor.LoginInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 /**
@@ -16,15 +19,34 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * 即，容器中所有WebMvcConfigurer都会起作用。
  * 所以，我们自定义WebMvcConfigurer的子类来扩展mvc配置。
  */
+//配置类本质上是Component，必须被扫描注册到IOC容器中，其中的配置才会生效！
+//这个配置类会被扫描，因为springboot默认扫描范围是：启动类所在包及其子包！
 @Configuration//把这个bean注册到IOC容器中
 public class WebConfig extends WebMvcConfigurerAdapter {
+
+    private UploadFileProperties uploadFileProperties;
+
     public WebConfig() {
         super();
+    }
+
+    @Autowired
+    public WebConfig(UploadFileProperties uploadFileProperties) {
+        this.uploadFileProperties = uploadFileProperties;
     }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/about").setViewName("about");
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        System.out.println("------------------------------------------------------\n");
+        System.out.println("accessPath="+uploadFileProperties.getAccessPath());
+        System.out.println("location="+uploadFileProperties.getResourcesLocation());
+        System.out.println("------------------------------------------------------\n");
+        registry.addResourceHandler(uploadFileProperties.getAccessPath()).addResourceLocations(uploadFileProperties.getResourcesLocation());
     }
 
     @Bean
